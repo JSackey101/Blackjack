@@ -14,7 +14,7 @@ def shuffle(deck: list, seed: int) -> list:
 
 def generate_deck() -> list:
     # Initialised to be empty strings to start
-    cards = ["", ""]
+    cards = []
 
     # TO DO: Write your code here to generate a deck of cards
 
@@ -74,7 +74,7 @@ def get_seed() -> int:
     args = parser.parse_args()
     seed = args.seed
 
-    if seed == None:
+    if seed is None:
         return time()
 
     return seed
