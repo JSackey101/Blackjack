@@ -7,27 +7,28 @@ WIN_MESSAGE = "You win!"
 DRAW_MESSAGE = "Draw!"
 
 
-def shuffle(deck, seed):
+def shuffle(deck: list, seed: int) -> list:
     Random(seed).shuffle(deck)
     return deck
 
 
-def generate_deck():
-    cards = ["", "", ""]
+def generate_deck() -> list:
+    # Initialised to be empty strings to start
+    cards = ["", ""]
 
     # TO DO: Write your code here to generate a deck of cards
 
     return cards
 
 
-def points_for(cards):
+def points_for(cards: list) -> int:
 
     # TO DO: Write your code here
 
     return 0
 
 
-def player_turn(deck, hand):
+def player_turn(deck: list, hand: list) -> bool:
     print(f"Your hand is {', '.join(hand)}\n({points_for(hand)} points)")
 
     # Accept the choice from the player
@@ -48,7 +49,7 @@ def player_turn(deck, hand):
         return None
 
 
-def play(seed):
+def play(seed: int):
     new_deck = generate_deck()
     shuffled_deck = shuffle(new_deck, seed)
 
@@ -66,7 +67,7 @@ def play(seed):
 # For example
 #   python3 blackjack.py --seed 313131
 # Would play the game with defined seed of 313131
-def get_seed():
+def get_seed() -> int:
     parser = argparse.ArgumentParser("blackjack")
     parser.add_argument(
         "--seed", dest='seed', help="The seed that a game will be played with", type=int)
