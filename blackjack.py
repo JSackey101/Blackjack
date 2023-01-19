@@ -29,7 +29,7 @@ def points_for(cards: list) -> int:
 
 
 def player_turn(deck: list, hand: list) -> bool:
-    print(f"Your hand is {', '.join(hand)}\n({points_for(hand)} points)")
+    print(f"Your hand is {', '.join(hand)} ({points_for(hand)} points)")
 
     # Accept the choice from the player
     action = input('What do you want to do? ("hit" or "stick")')
