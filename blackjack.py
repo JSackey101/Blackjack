@@ -1,5 +1,5 @@
-import time
-import random
+from time import time
+from random import Random
 import argparse
 
 LOSE_MESSAGE = "You lose!"
@@ -8,7 +8,7 @@ DRAW_MESSAGE = "Draw!"
 
 
 def shuffle(deck, seed):
-    random.Random(seed).shuffle(deck)
+    Random(seed).shuffle(deck)
     return deck
 
 
@@ -49,15 +49,15 @@ def player_turn(deck, hand):
 
 
 def play(seed):
-    newDeck = generate_deck()
-    shuffledDeck = shuffle(newDeck, seed)
+    new_deck = generate_deck()
+    shuffled_deck = shuffle(new_deck, seed)
 
-    playerHand = [shuffledDeck.pop(0), shuffledDeck.pop(0)]
+    player_hand = [shuffled_deck.pop(0), shuffled_deck.pop(0)]
 
-    isPlayerTurn = True
+    is_player_turn = True
 
-    while isPlayerTurn:
-        isPlayerTurn = player_turn(shuffledDeck, playerHand)
+    while is_player_turn:
+        is_player_turn = player_turn(shuffled_deck, player_hand)
 
         # TO DO: Dealer's turn
 
@@ -74,7 +74,7 @@ def get_seed():
     seed = args.seed
 
     if seed == None:
-        return time.time()
+        return time()
 
     return seed
 
