@@ -9,8 +9,9 @@ DRAW_MESSAGE = "Draw!"
 
 def shuffle(deck: list, seed: int) -> list:
     """Randomises a deck of cards"""
-    Random(seed).shuffle(deck)
-    return deck
+    copy_of_deck = deck.copy()
+    Random(seed).shuffle(copy_of_deck)
+    return copy_of_deck
 
 
 def generate_deck() -> list:
