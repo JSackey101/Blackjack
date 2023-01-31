@@ -15,7 +15,6 @@ def shuffle(deck: list, seed: int) -> list:
 
 def generate_deck() -> list:
     """Generates a deck of cards and returns them"""
-    # Initialised to be empty strings to start
     cards = []
 
     # TO DO: Write your code here to generate a deck of cards
@@ -62,7 +61,7 @@ def play(seed: int) -> None:
     Generates a deck and deals cards to the player and dealer.
 
     The 'seed' parameter is used to set a specific game. If you play the game
-    with seed=4211 it will always have the same outcome
+    with seed=313131 it will always have the same outcome (the order the cards are dealt)
     """
     new_deck = generate_deck()
     shuffled_deck = shuffle(new_deck, seed)
@@ -77,10 +76,6 @@ def play(seed: int) -> None:
         # TO DO: Dealer's turn
 
 
-# You can safely ignore this function. It is used to accept a seed from the command line.
-# For example
-#   python3 blackjack.py --seed 313131
-# Would play the game with defined seed of 313131
 def get_seed() -> int:
     """
     You can safely ignore this function. It is used to accept a seed from the command line.
