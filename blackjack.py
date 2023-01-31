@@ -8,11 +8,13 @@ DRAW_MESSAGE = "Draw!"
 
 
 def shuffle(deck: list, seed: int) -> list:
+    """Randomises a deck of cards"""
     Random(seed).shuffle(deck)
     return deck
 
 
 def generate_deck() -> list:
+    """Generates a deck of cards and returns them"""
     # Initialised to be empty strings to start
     cards = []
 
@@ -22,6 +24,7 @@ def generate_deck() -> list:
 
 
 def points_for(cards: list) -> int:
+    """Calculates the amount of points for a given list of cards"""
 
     # TO DO: Write your code here
 
@@ -29,6 +32,11 @@ def points_for(cards: list) -> int:
 
 
 def player_turn(deck: list, hand: list) -> bool:
+    """
+    Asks the player for their next choice and changes the game state
+    based on their response of either 'hit' or 'stick'
+    """
+
     print(f"Your hand is {', '.join(hand)} ({points_for(hand)} points)")
 
     # Accept the choice from the player
@@ -49,7 +57,13 @@ def player_turn(deck: list, hand: list) -> bool:
         return None
 
 
-def play(seed: int):
+def play(seed: int) -> None:
+    """
+    Generates a deck and deals cards to the player and dealer.
+
+    The 'seed' parameter is used to set a specific game. If you play the game
+    with seed=4211 it will always have the same outcome
+    """
     new_deck = generate_deck()
     shuffled_deck = shuffle(new_deck, seed)
 
@@ -68,6 +82,14 @@ def play(seed: int):
 #   python3 blackjack.py --seed 313131
 # Would play the game with defined seed of 313131
 def get_seed() -> int:
+    """
+    You can safely ignore this function. It is used to accept a seed from the command line.
+    For example
+
+    python3 blackjack.py --seed 313131
+
+    Would play the game with defined seed of 313131
+    """
     parser = argparse.ArgumentParser("blackjack")
     parser.add_argument(
         "--seed", dest='seed', help="The seed that a game will be played with", type=int)
