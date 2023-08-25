@@ -7,31 +7,49 @@ WIN_MESSAGE = "You win!"
 DRAW_MESSAGE = "Draw!"
 
 
-def shuffle(deck: list, seed: int) -> list:
+def shuffle(deck: list, seed: int) -> list[str]:
     """Randomises a deck of cards"""
     copy_of_deck = deck.copy()
     Random(seed).shuffle(copy_of_deck)
     return copy_of_deck
 
 
-def generate_deck() -> list:
+def generate_deck() -> list[str]:
     """Generates a deck of cards and returns them"""
     cards = []
 
-    # TO DO: Write your code here to generate a deck of cards
+    # TODO: Write your code here to generate a deck of cards
 
     return cards
 
 
-def points_for(cards: list) -> int:
+def points_for(cards: list[str]) -> int:
     """Calculates the amount of points for a given list of cards"""
 
-    # TO DO: Write your code here
+    # TODO: Write your code here
 
     return 0
 
 
-def player_turn(deck: list, hand: list) -> bool:
+def get_next_card_from_deck(deck: list[str]) -> str:
+    """Gets the next card from the deck"""
+
+    # TODO: Write your code here
+
+    return ""
+
+
+def deal_card_to_hand(deck: list[str], hand: list[str]) -> list[str]:
+    """
+    Draws a card from the deck and adds it to the hand then return the hand.
+    """
+
+    # TODO: Write your code here
+
+    return hand
+
+
+def player_turn(deck: list[str], hand: list[str]) -> bool:
     """
     Asks the player for their next choice and changes the game state
     based on their response of either 'hit' or 'stick'
@@ -44,15 +62,15 @@ def player_turn(deck: list, hand: list) -> bool:
 
     if action == "hit":
 
-        # TO DO: Draw a card
+        hand = deal_card_to_hand(deck, hand)
+
+        # TODO: Implement the rest of the players turn
         # It's still the player's turn
 
         return True
     elif action == "stick":
 
-        #  End the player's turn
-
-        return False
+        return False  # End the player's turn
     else:
         return None
 
@@ -74,7 +92,9 @@ def play(seed: int) -> None:
     while is_player_turn:
         is_player_turn = player_turn(shuffled_deck, player_hand)
 
-        # TO DO: Dealer's turn
+    # TODO: Implement the Dealer's turn
+
+    # TODO: Implement the end of the game
 
 
 def get_seed() -> int:
