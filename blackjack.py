@@ -32,7 +32,7 @@ def points_for(cards: list[str]) -> int:
 
 
 def get_next_card_from_deck(deck: list[str]) -> str:
-    """Gets the next card from the deck"""
+    """Gets the next card from the deck and returns it"""
 
     # TODO: Write your code here
 
