@@ -95,7 +95,7 @@ def play(seed: int) -> None:
 
     player = {
         "hand": [shuffled_deck.pop(0), shuffled_deck.pop(0)],
-        "name": get_player_name()
+        "name": name
     }
 
     is_player_turn = True
