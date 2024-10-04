@@ -55,8 +55,8 @@ def player_turn(deck: list[str], player: dict) -> bool:
     based on their response of either 'hit' or 'stick'
     """
 
-    print(f"Your hand is {', '.join(player.hand)
-                          } ({points_for(player.hand)} points)")
+    print(f"Your hand is {', '.join(player["hand"])
+                          } ({points_for(player["hand"])} points)")
 
     # Accept the choice from the player
     action = input('What do you want to do? ("hit" or "stick")')
