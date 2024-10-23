@@ -28,7 +28,7 @@ def points_for(cards: list[str]) -> int:
 
     # TODO: Write your code here
 
-    return 0
+    ...
 
 
 def get_next_card_from_deck(deck: list[str]) -> str:
@@ -36,33 +36,34 @@ def get_next_card_from_deck(deck: list[str]) -> str:
 
     # TODO: Write your code here
 
-    return ""
+    ...
 
 
-def deal_card_to_hand(deck: list[str], hand: list[str]) -> list[str]:
+def deal_card_to_player(deck: list[str], player: dict):
     """
-    Draws a card from the deck and adds it to the hand then return the hand.
+    Draws a card from the deck and adds it to the player's hand
     """
 
     # TODO: Write your code here
 
-    return hand
+    return
 
 
-def player_turn(deck: list[str], hand: list[str]) -> bool:
+def player_turn(deck: list[str], player: dict) -> bool:
     """
     Asks the player for their next choice and changes the game state
     based on their response of either 'hit' or 'stick'
     """
 
-    print(f"Your hand is {', '.join(hand)} ({points_for(hand)} points)")
+    print(f"Your hand is {', '.join(player["hand"])
+                          } ({points_for(player["hand"])} points)")
 
     # Accept the choice from the player
     action = input('What do you want to do? ("hit" or "stick")')
 
     if action == "hit":
 
-        hand = deal_card_to_hand(deck, hand)
+        deal_card_to_player(deck, hand)
 
         # TODO: Implement the rest of the players turn
         # It's still the player's turn
@@ -75,6 +76,10 @@ def player_turn(deck: list[str], hand: list[str]) -> bool:
         return None
 
 
+def get_player_name() -> str:
+    return input("What is your name?")
+
+
 def play(seed: int) -> None:
     """
     Generates a deck and deals cards to the player and dealer.
@@ -84,13 +89,19 @@ def play(seed: int) -> None:
     """
     new_deck = generate_deck()
     shuffled_deck = shuffle(new_deck, seed)
+    name = get_player_name()
 
-    player_hand = [shuffled_deck.pop(0), shuffled_deck.pop(0)]
+    print(f"Player {name} has entered the game")
+
+    player = {
+        "hand": [shuffled_deck.pop(0), shuffled_deck.pop(0)],
+        "name": name
+    }
 
     is_player_turn = True
 
     while is_player_turn:
-        is_player_turn = player_turn(shuffled_deck, player_hand)
+        is_player_turn = player_turn(shuffled_deck, player)
 
     # TODO: Implement the Dealer's turn
 
@@ -112,6 +123,7 @@ def get_seed() -> int:
     args = parser.parse_args()
     seed = args.seed
 
+    # If no seed is given, use the current time as the seed
     if seed is None:
         return time()
 
