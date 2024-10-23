@@ -64,7 +64,6 @@ def player_turn(deck: list[str], player: dict) -> bool:
     if action == "hit":
 
         deal_card_to_player(deck, player)
-        deal_card_to_player(deck, player)
 
         # TODO: Implement the rest of the players turn
         # It's still the player's turn
