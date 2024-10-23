@@ -27,6 +27,7 @@ def points_for(cards: list[str]) -> int:
     """Calculates the amount of points for a given list of cards"""
 
     # TODO: Write your code here
+    return 0
 
     ...
 
@@ -55,15 +56,15 @@ def player_turn(deck: list[str], player: dict) -> bool:
     based on their response of either 'hit' or 'stick'
     """
 
-    print(f"Your hand is {', '.join(player["hand"])
-                          } ({points_for(player["hand"])} points)")
+    print(
+        f"Your hand is {', '.join(player['hand'])} ({points_for(player['hand'])} points)")
 
     # Accept the choice from the player
     action = input('What do you want to do? ("hit" or "stick")')
 
     if action == "hit":
 
-        deal_card_to_player(deck, hand)
+        deal_card_to_player(deck, player)
 
         # TODO: Implement the rest of the players turn
         # It's still the player's turn
