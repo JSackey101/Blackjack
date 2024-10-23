@@ -39,14 +39,14 @@ def get_next_card_from_deck(deck: list[str]) -> str:
     ...
 
 
-def deal_card_to_player(deck: list[str], player: dict):
+def deal_card_to_player(deck: list[str], player: dict) -> None:
     """
     Draws a card from the deck and adds it to the player's hand
     """
 
     # TODO: Write your code here
 
-    return
+    ...
 
 
 def player_turn(deck: list[str], player: dict) -> bool:
