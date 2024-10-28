@@ -55,15 +55,15 @@ def player_turn(deck: list[str], player: dict) -> bool:
     based on their response of either 'hit' or 'stick'
     """
 
-    print(f"Your hand is {', '.join(player["hand"])
-                          } ({points_for(player["hand"])} points)")
+    print(
+        f"Your hand is {', '.join(player['hand'])}({points_for(player['hand'])} points)")
 
     # Accept the choice from the player
     action = input('What do you want to do? ("hit" or "stick")')
 
     if action == "hit":
 
-        deal_card_to_player(deck, hand)
+        deal_card_to_player(deck, player)
 
         # TODO: Implement the rest of the players turn
         # It's still the player's turn
@@ -103,9 +103,9 @@ def play(seed: int) -> None:
     while is_player_turn:
         is_player_turn = player_turn(shuffled_deck, player)
 
-    # TODO: Implement the Dealer's turn
+        # TODO: Implement the Dealer's turn
 
-    # TODO: Implement the end of the game
+        # TODO: Implement the end of the game
 
 
 def get_seed() -> int:
