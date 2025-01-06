@@ -4,7 +4,7 @@ import argparse
 
 LOSE_MESSAGE = "You lose!"
 WIN_MESSAGE = "You win!"
-DRAW_MESSAGE = "Draw!"
+DRAW_MESSAGE = "Draw!" # This is a draw
 
 
 def shuffle(deck: list, seed: int) -> list[str]:
