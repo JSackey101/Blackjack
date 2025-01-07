@@ -8,6 +8,11 @@ DRAW_MESSAGE = "Draw!"
 SUIT_LETTERS = ["S", "D", "C", "H"]
 CARD_NUMBERS = ["A", "2", "3", "4", "5",
                 "6", "7", "8", "9", "10", "J", "Q", "K"]
+SPECIAL_NO_DICT = {"A": 11,
+                   "J": 10,
+                   "Q": 10,
+                   "K": 10
+                   }
 
 
 def shuffle(deck: list, seed: int) -> list[str]:
@@ -31,6 +36,18 @@ def generate_deck() -> list[str]:
 
 def points_for(cards: list[str]) -> int:
     """Calculates the amount of points for a given list of cards"""
+    if len(cards) == 2:
+        if cards[0][0] == "A" and cards[1][0] == "A":
+            return 21
+    points = 0
+    for card in cards:
+        if card[0:-1] in SPECIAL_NO_DICT:
+            points += SPECIAL_NO_DICT[card[0:-1]]
+        else:
+            points += int(card[0:-1])
+    if len(cards) > 5 and points < 21:
+        return 21
+    return points
 
     # TODO: Write your code here
 
