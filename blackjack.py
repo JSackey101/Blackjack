@@ -34,6 +34,10 @@ def generate_deck() -> list[str]:
     return cards
 
 
+def points_for_card(card: str) -> int:
+    """Calculates the amount of points for 1 given card"""
+
+
 def points_for(cards: list[str]) -> int:
     """Calculates the amount of points for a given list of cards"""
     if len(cards) == 2:
