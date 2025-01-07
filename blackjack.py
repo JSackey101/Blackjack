@@ -3,8 +3,11 @@ from random import Random
 import argparse
 
 LOSE_MESSAGE = "You lose!"
-WIN_MESSAGE = "You win!" # This is a win
-DRAW_MESSAGE = "Draw!" # This is a draw
+WIN_MESSAGE = "You win!"
+DRAW_MESSAGE = "Draw!"
+SUIT_LETTERS = ["S", "D", "C", "H"]
+CARD_NUMBERS = ["A", "2", "3", "4", "5",
+                "6", "7", "8", "9", "10", "J", "Q", "K"]
 
 
 def shuffle(deck: list, seed: int) -> list[str]:
@@ -17,6 +20,9 @@ def shuffle(deck: list, seed: int) -> list[str]:
 def generate_deck() -> list[str]:
     """Generates a deck of cards and returns them"""
     cards = []
+    for letter in SUIT_LETTERS:
+        for number in CARD_NUMBERS:
+            cards.append(number+letter)
 
     # TODO: Write your code here to generate a deck of cards
 
