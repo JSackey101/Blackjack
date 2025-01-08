@@ -136,11 +136,6 @@ def play(seed: int) -> None:
     shuffled_deck = shuffle(new_deck, seed)
     name = get_player_name()
 
-    dealer_hand = []
-    for i in range(2):
-        dealer_hand.append(get_next_card_from_deck(shuffled_deck))
-    dealer_points = points_for(dealer_hand)
-
     print(f"Player {name} has entered the game")
 
     player = {
@@ -152,6 +147,11 @@ def play(seed: int) -> None:
 
     while is_player_turn:
         is_player_turn, player_points = player_turn(shuffled_deck, player)
+
+    dealer_hand = []
+    for i in range(2):
+        dealer_hand.append(get_next_card_from_deck(shuffled_deck))
+    dealer_points = points_for(dealer_hand)
 
     if player_points < 22:
         is_dealer_turn = True
