@@ -49,10 +49,10 @@ def points_for(cards: list[str]) -> int:
         if (cards[0][0] and cards[1][0]) == "A":
             return 21
     points = 0
-    for card in cards:
+    for i, card in enumerate(cards):
         points += points_for_card(card)
-    if len(cards) > 5 and points < 21:
-        return 21
+        if (i+1) > 5 and points < 21:
+            return 21
     return points
 
     # TODO: Write your code here
