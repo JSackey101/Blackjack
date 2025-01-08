@@ -28,9 +28,6 @@ def generate_deck() -> list[str]:
     for letter in SUIT_LETTERS:
         for number in CARD_NUMBERS:
             cards.append(number+letter)
-
-    # TODO: Write your code here to generate a deck of cards
-
     return cards
 
 
@@ -83,15 +80,13 @@ def player_turn(deck: list[str], player: dict) -> bool:
     if action == "hit":
         print("Hitting")
         deal_card_to_player(deck, player)
-        # Draw Card -> Add Card to Players Hand -> Calculate Player Points total
         points = points_for(player['hand'])
         print(
             f"Your hand is {', '.join(player['hand'])}({points} points)")
         return True, points
-    elif action == "stick":
-        return False, points  # End the player's turn
-    else:
+    if action == "stick":
         return False, points
+    return False, points
 
 
 def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
@@ -105,20 +100,21 @@ def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
 
 
 def result(player_points: int, dealer_points: int) -> str:
-    """ Returns a result message based on the state of the player's (and if applicable the dealer's) points"""
+    """ Returns a result message based on the state of the player's 
+    (and if applicable the dealer's) points"""
     if player_points > 21:
-        return (LOSE_MESSAGE)
-    elif dealer_points > 21:
-        return (WIN_MESSAGE)
-    elif dealer_points > player_points:
-        return (LOSE_MESSAGE)
-    elif player_points > dealer_points:
-        return (WIN_MESSAGE)
-    else:
-        return (DRAW_MESSAGE)
+        return LOSE_MESSAGE
+    if dealer_points > 21:
+        return WIN_MESSAGE
+    if dealer_points > player_points:
+        return LOSE_MESSAGE
+    if player_points > dealer_points:
+        return WIN_MESSAGE
+    return DRAW_MESSAGE
 
 
 def get_player_name() -> str:
+    """ Takes player name input and returns this. """
     return input("What is your name?")
 
 
