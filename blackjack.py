@@ -1,3 +1,4 @@
+""" Module that provides various time-related functions. """
 from time import time
 from random import Random
 import argparse
@@ -145,7 +146,7 @@ def play(seed: int) -> None:
         is_player_turn, player_points = player_turn(shuffled_deck, player)
 
     dealer_hand = []
-    for i in range(2):
+    for _ in range(2):
         dealer_hand.append(get_next_card_from_deck(shuffled_deck))
     dealer_points = points_for(dealer_hand)
 
@@ -188,5 +189,5 @@ def get_seed() -> int:
 
 
 if __name__ == "__main__":
-    seed = get_seed()
-    play(seed)
+    the_seed = get_seed()
+    play(the_seed)
