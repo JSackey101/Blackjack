@@ -45,9 +45,8 @@ def points_for_card(card: str) -> int:
 
 def points_for(cards: list[str]) -> int:
     """Calculates the amount of points for a given list of cards"""
-    if len(cards) == 2:
-        if (cards[0][0] and cards[1][0]) == "A":
-            return 21
+    if len(cards) == 2 and (cards[0][0] and cards[1][0]) == "A":
+        return 21
     points = 0
     for i, card in enumerate(cards):
         points += points_for_card(card)
