@@ -54,10 +54,6 @@ def points_for(cards: list[str]) -> int:
             return 21
     return points
 
-    # TODO: Write your code here
-
-    ...
-
 
 def get_next_card_from_deck(deck: list[str]) -> str:
     """Gets the next card from the deck and returns it"""
