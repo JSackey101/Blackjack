@@ -2,7 +2,7 @@
 
 """File for tests written by you - the trainee"""
 
-from blackjack import generate_deck, points_for, play, get_next_card_from_deck, deal_card_to_player
+from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player
 from support.testing_util import player_chooses
 
 
@@ -18,6 +18,16 @@ def test_generate_deck():
 def test_points_for_number_cards():
     """ Tests whether the points_for function generates the correct number of points when there are only number cards are in the hand. """
     assert points_for(["7H", "2D"]) == 9
+
+
+def test_points_for_card_number():
+    """ Tests whether the points_for_card function returns the correct point value for a number card. """
+    assert points_for_card("7H") == 7
+
+
+def test_points_for_card_face():
+    """ Tests whether the points_for_card function returns the correct point value for a face card. """
+    assert points_for_card("QS") == 10
 
 
 def test_two_aces():
