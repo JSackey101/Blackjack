@@ -106,6 +106,19 @@ def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
     return dealer_hand
 
 
+def result(player_points: int, dealer_points: int) -> str:
+    if player_points > 21:
+        return (LOSE_MESSAGE)
+    elif dealer_points > 21:
+        return (WIN_MESSAGE)
+    elif dealer_points > player_points:
+        return (LOSE_MESSAGE)
+    elif player_points > dealer_points:
+        return (WIN_MESSAGE)
+    else:
+        return (DRAW_MESSAGE)
+
+
 def get_player_name() -> str:
     return input("What is your name?")
 
@@ -117,9 +130,17 @@ def play(seed: int) -> None:
     The 'seed' parameter is used to set a specific game. If you play the game
     with seed=313131 it will always have the same outcome (the order the cards are dealt)
     """
+    is_player_turn = True
+    is_dealer_turn = False
+
     new_deck = generate_deck()
     shuffled_deck = shuffle(new_deck, seed)
     name = get_player_name()
+
+    dealer_hand = []
+    for i in range(2):
+        dealer_hand.append(get_next_card_from_deck(shuffled_deck))
+    dealer_points = points_for(dealer_hand)
 
     print(f"Player {name} has entered the game")
 
@@ -127,34 +148,20 @@ def play(seed: int) -> None:
         "hand": [shuffled_deck.pop(0), shuffled_deck.pop(0)],
         "name": name
     }
-
-    is_player_turn = True
-    is_dealer_turn = False
-
     while is_player_turn:
         is_player_turn, player_points = player_turn(shuffled_deck, player)
 
-    dealer_hand = []
     if player_points < 22:
         is_dealer_turn = True
+
     while is_dealer_turn:
-        for i in range(2):
-            dealer_hand.append(get_next_card_from_deck(shuffled_deck))
         dealer_hand = dealer_turn(
             dealer_hand=dealer_hand, deck=shuffled_deck)
         dealer_points = points_for(dealer_hand)
         if dealer_points > 17:
             is_dealer_turn = False
-    if player_points > 21:
-        print(LOSE_MESSAGE)
-    elif dealer_points > 21:
-        print(WIN_MESSAGE)
-    elif dealer_points > player_points:
-        print(LOSE_MESSAGE)
-    elif player_points > dealer_hand:
-        print(WIN_MESSAGE)
-    else:
-        print(DRAW_MESSAGE)
+    result_message = result(player_points, dealer_points)
+    print(result_message)
 
 
 def get_seed() -> int:
