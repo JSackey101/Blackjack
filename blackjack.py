@@ -73,25 +73,27 @@ def player_turn(deck: list[str], player: dict) -> bool:
     Asks the player for their next choice and changes the game state
     based on their response of either 'hit' or 'stick'
     """
-
+    points = points_for(player['hand'])
+    if points > 21:
+        return False, points
     print(
-        f"Your hand is {', '.join(player['hand'])}({points_for(player['hand'])} points)")
+        f"Your hand is {', '.join(player['hand'])}({points} points)")
 
     # Accept the choice from the player
     action = input('What do you want to do? ("hit" or "stick")')
 
     if action == "hit":
-        print("Hitting!")
+        print("Hitting")
         deal_card_to_player(deck, player)
         # Draw Card -> Add Card to Players Hand -> Calculate Player Points total
         points = points_for(player['hand'])
         print(
             f"Your hand is {', '.join(player['hand'])}({points} points)")
-        return True, False
+        return True, points
     elif action == "stick":
-        return False, True  # End the player's turn
+        return False, points  # End the player's turn
     else:
-        return False, True
+        return False, points
 
 
 def get_player_name() -> str:
@@ -117,12 +119,38 @@ def play(seed: int) -> None:
     }
 
     is_player_turn = True
+    is_dealer_turn = False
 
     while is_player_turn:
-        is_player_turn = player_turn(shuffled_deck, player)
+        is_player_turn, player_points = player_turn(shuffled_deck, player)
 
-        # TODO: Implement the Dealer's turn
-
+    dealer_hand = []
+    if player_points < 22:
+        is_dealer_turn = True
+    while is_dealer_turn:
+        for i in range(2):
+            dealer_hand.append(get_next_card_from_deck(shuffled_deck))
+            dealer_points = points_for(dealer_hand)
+            print(
+                f"Dealer's hand is {', '.join(dealer_hand)}({dealer_hand} points)")
+        if points_for(dealer_hand) < 17:
+            dealer_hand.append(get_next_card_from_deck(shuffled_deck))
+            print(
+                f"Dealer's hand is {', '.join(dealer_hand)}({dealer_hand} points)")
+        else:
+            print(
+                f"Dealer's hand is {', '.join(dealer_hand)}({dealer_hand} points)")
+            is_dealer_turn = False
+    if player_points > 21:
+        print(LOSE_MESSAGE)
+    elif dealer_points > 21:
+        print(WIN_MESSAGE)
+    elif dealer_points > player_points:
+        print(LOSE_MESSAGE)
+    elif player_points > dealer_hand:
+        print(WIN_MESSAGE)
+    else:
+        print(DRAW_MESSAGE)
         # TODO: Implement the end of the game
 
 
