@@ -81,18 +81,17 @@ def player_turn(deck: list[str], player: dict) -> bool:
     action = input('What do you want to do? ("hit" or "stick")')
 
     if action == "hit":
-
+        print("Hitting!")
         deal_card_to_player(deck, player)
-
-        # TODO: Implement the rest of the players turn
-        # It's still the player's turn
-
-        return True
+        # Draw Card -> Add Card to Players Hand -> Calculate Player Points total
+        points = points_for(player['hand'])
+        print(
+            f"Your hand is {', '.join(player['hand'])}({points} points)")
+        return True, False
     elif action == "stick":
-
-        return False  # End the player's turn
+        return False, True  # End the player's turn
     else:
-        return None
+        return False, True
 
 
 def get_player_name() -> str:
