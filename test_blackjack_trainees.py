@@ -54,3 +54,26 @@ def test_points_for_number_face():
 def test_two_aces_plus_one():
     """ Tests whether the points_for function generates the correct number of points when the hand is 2 Aces and 1 other card. """
     assert points_for(["AH", "AS", "3H"]) == 25
+
+
+def test_correct_draw():
+    """ Tests whether the get_next_card_from_deck function correctly returns the next card """
+    assert get_next_card_from_deck(["AC", "AS", "AH"]) == "AC"
+
+
+def test_deck_edited():
+    """ Tests whether the get_next_card_from_deck function correctly removes the next card from the deck"""
+    deck = ["AC", "AS", "AH"]
+    next_card = get_next_card_from_deck(deck)
+    assert deck == ["AS", "AH"]
+
+
+def test_hand_changed():
+    """ Tests whether the deal_card_to_player function correctly changes the player's hand. """
+    deck = ["AC", "AS", "AH"]
+    player = {
+        "hand": ["1S", "2S"],
+        "name": "foo"
+    }
+    deal_card_to_player(deck, player)
+    assert player["hand"] == ["1S", "2S", "AC"]
