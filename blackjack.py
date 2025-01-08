@@ -57,10 +57,7 @@ def points_for(cards: list[str]) -> int:
 
 def get_next_card_from_deck(deck: list[str]) -> str:
     """Gets the next card from the deck and returns it"""
-
-    # TODO: Write your code here
-
-    ...
+    return deck.pop(0)
 
 
 def deal_card_to_player(deck: list[str], player: dict) -> None:
