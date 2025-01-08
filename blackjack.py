@@ -101,7 +101,7 @@ def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
     print(f"Dealer Draws {dealer_hand[-1]}!")
     print(
         f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
-    return dealer_hand
+    return dealer_hand, points_for(dealer_hand)
 
 
 def result(player_points: int, dealer_points: int) -> str:
@@ -159,11 +159,12 @@ def play(seed: int) -> None:
             f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
 
     while is_dealer_turn:
-        dealer_hand = dealer_turn(
-            dealer_hand=dealer_hand, deck=shuffled_deck)
-        dealer_points = points_for(dealer_hand)
-        if dealer_points > 17:
+        if dealer_points < 17:
+            dealer_hand, dealer_points = dealer_turn(
+                dealer_hand=dealer_hand, deck=shuffled_deck)
+        else:
             is_dealer_turn = False
+
     result_message = result(player_points, dealer_points)
     print(result_message)
 
