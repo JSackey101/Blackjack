@@ -50,10 +50,7 @@ def points_for(cards: list[str]) -> int:
             return 21
     points = 0
     for card in cards:
-        if card[0:-1] in SPECIAL_NO_DICT:
-            points += SPECIAL_NO_DICT[card[0:-1]]
-        else:
-            points += int(card[0:-1])
+        points += points_for_card(card)
     if len(cards) > 5 and points < 21:
         return 21
     return points
