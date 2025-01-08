@@ -64,10 +64,8 @@ def deal_card_to_player(deck: list[str], player: dict) -> None:
     """
     Draws a card from the deck and adds it to the player's hand
     """
-
-    # TODO: Write your code here
-
-    ...
+    drawn_card = get_next_card_from_deck(deck)
+    player["hand"].append(drawn_card)
 
 
 def player_turn(deck: list[str], player: dict) -> bool:
