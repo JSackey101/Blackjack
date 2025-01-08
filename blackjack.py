@@ -97,16 +97,17 @@ def player_turn(deck: list[str], player: dict) -> bool:
 
 
 def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
+    """ Returns an updated hand for the dealer as they draw a card. """
     print(
         f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
-    if points_for(dealer_hand) < 17:
-        dealer_hand.append(get_next_card_from_deck(deck))
-        print(
-            f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
+    dealer_hand.append(get_next_card_from_deck(deck))
+    print(
+        f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
     return dealer_hand
 
 
 def result(player_points: int, dealer_points: int) -> str:
+    """ Returns a result message based on the state of the player's (and if applicable the dealer's) points"""
     if player_points > 21:
         return (LOSE_MESSAGE)
     elif dealer_points > 21:
