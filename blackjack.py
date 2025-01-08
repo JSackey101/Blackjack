@@ -36,12 +36,17 @@ def generate_deck() -> list[str]:
 
 def points_for_card(card: str) -> int:
     """Calculates the amount of points for 1 given card"""
+    if card[0:-1] in SPECIAL_NO_DICT:
+        points = SPECIAL_NO_DICT[card[0:-1]]
+    else:
+        points = int(card[0:-1])
+    return points
 
 
 def points_for(cards: list[str]) -> int:
     """Calculates the amount of points for a given list of cards"""
     if len(cards) == 2:
-        if cards[0][0] == "A" and cards[1][0] == "A":
+        if (cards[0][0] and cards[1][0]) == "A":
             return 21
     points = 0
     for card in cards:
