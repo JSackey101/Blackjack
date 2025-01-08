@@ -96,6 +96,16 @@ def player_turn(deck: list[str], player: dict) -> bool:
         return False, points
 
 
+def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
+    print(
+        f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
+    if points_for(dealer_hand) < 17:
+        dealer_hand.append(get_next_card_from_deck(deck))
+        print(
+            f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
+    return dealer_hand
+
+
 def get_player_name() -> str:
     return input("What is your name?")
 
@@ -130,16 +140,10 @@ def play(seed: int) -> None:
     while is_dealer_turn:
         for i in range(2):
             dealer_hand.append(get_next_card_from_deck(shuffled_deck))
-            dealer_points = points_for(dealer_hand)
-            print(
-                f"Dealer's hand is {', '.join(dealer_hand)}({dealer_hand} points)")
-        if points_for(dealer_hand) < 17:
-            dealer_hand.append(get_next_card_from_deck(shuffled_deck))
-            print(
-                f"Dealer's hand is {', '.join(dealer_hand)}({dealer_hand} points)")
-        else:
-            print(
-                f"Dealer's hand is {', '.join(dealer_hand)}({dealer_hand} points)")
+        dealer_hand = dealer_turn(
+            dealer_hand=dealer_hand, deck=shuffled_deck)
+        dealer_points = points_for(dealer_hand)
+        if dealer_points > 17:
             is_dealer_turn = False
     if player_points > 21:
         print(LOSE_MESSAGE)
@@ -151,7 +155,6 @@ def play(seed: int) -> None:
         print(WIN_MESSAGE)
     else:
         print(DRAW_MESSAGE)
-        # TODO: Implement the end of the game
 
 
 def get_seed() -> int:
