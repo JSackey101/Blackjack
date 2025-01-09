@@ -2,7 +2,7 @@
 
 """File for tests written by you - the trainee"""
 
-from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player
+from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player, player_turn
 from support.testing_util import player_chooses
 
 
@@ -77,3 +77,84 @@ def test_hand_changed():
     }
     deal_card_to_player(deck, player)
     assert player["hand"] == ["1S", "2S", "AC"]
+
+
+def test_player_bust():
+    """ Tests whether the player_turn function returns False when the Player's hand 
+        is already above 21. """
+    deck = ["AC", "AS", "AH"]
+    player = {
+        "hand": ["KH", "KS", "2C"],
+        "name": "John Doe"
+    }
+    is_player_turn = player_turn(deck, player)
+    assert is_player_turn == False
+
+
+def test_player_hit(capsys, monkeypatch):
+    """ Tests whether the player_turn function prints "Hitting" when the user chooses to hit. """
+    deck = ["AC", "AS", "AH"]
+    player = {
+        "hand": ["KH", "2C"],
+        "name": "John Doe"
+    }
+    player_chooses(['hit'], monkeypatch)
+    is_player_turn = player_turn(deck=deck, player=player)
+
+    captured_output = capsys.readouterr().out
+
+    assert "Hitting" in captured_output
+
+
+def test_printed_hand(monkeypatch, capsys):
+    """ Tests whether the player_turn function correctly prints the new hand after the player hits. """
+    deck = ["AC", "AS", "AH"]
+    player = {
+        "hand": ["KH", "2C"],
+        "name": "John Doe"
+    }
+    player_chooses(['hit'], monkeypatch)
+    is_player_turn = player_turn(deck=deck, player=player)
+
+    captured_output = capsys.readouterr().out
+
+    assert "KH, 2C, AC" in captured_output
+
+
+def test_printed_points(monkeypatch, capsys):
+    """ Tests whether the player_turn function correctly prints the new point total after the player hits. """
+    deck = ["AC", "AS", "AH"]
+    player = {
+        "hand": ["KH", "2C"],
+        "name": "John Doe"
+    }
+    player_chooses(['hit'], monkeypatch)
+    is_player_turn = player_turn(deck=deck, player=player)
+
+    captured_output = capsys.readouterr().out
+
+    assert "(23 points)" in captured_output
+
+
+def test_player_stick(capsys, monkeypatch):
+    """ Tests whether the player_turn function returns False when the Player sticks. """
+    deck = ["AC", "AS", "AH"]
+    player = {
+        "hand": ["KH", "KS", "2C"],
+        "name": "John Doe"
+    }
+    player_chooses(['stick'], monkeypatch)
+    is_player_turn = player_turn(deck, player)
+    assert is_player_turn == False
+
+
+def test_player_invalid_input(capsys, monkeypatch):
+    """ Tests whether the player_turn function returns False when the Player gives an invalid input. """
+    deck = ["AC", "AS", "AH"]
+    player = {
+        "hand": ["KH", "KS", "2C"],
+        "name": "John Doe"
+    }
+    player_chooses(['invalid'], monkeypatch)
+    is_player_turn = player_turn(deck, player)
+    assert is_player_turn == False
