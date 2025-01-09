@@ -2,7 +2,7 @@
 
 """File for tests written by you - the trainee"""
 
-from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player, player_turn
+from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player, player_turn, dealer_turn
 from support.testing_util import player_chooses
 
 
@@ -158,3 +158,48 @@ def test_player_invalid_input(capsys, monkeypatch):
     player_chooses(['invalid'], monkeypatch)
     is_player_turn = player_turn(deck, player)
     assert is_player_turn == False
+
+
+def test_printed_dealer_hand(monkeypatch, capsys):
+    """ Tests whether the dealer_turn function correctly prints the new hand after the dealer hits. """
+    deck = ["AC", "AS", "AH"]
+    dealer_hand = ["3S", "2C"]
+    player_chooses(['hit'], monkeypatch)
+    dealer_hand = dealer_turn(dealer_hand, deck)
+
+    captured_output = capsys.readouterr().out
+
+    assert "3S, 2C, AC" in captured_output
+
+
+def test_printed_dealer_points(monkeypatch, capsys):
+    """ Tests whether the dealer_turn function correctly prints the new point total after the dealer hits. """
+    deck = ["AC", "AS", "AH"]
+    dealer_hand = ["3S", "2C"]
+    player_chooses(['hit'], monkeypatch)
+    dealer_hand = dealer_turn(dealer_hand, deck)
+
+    captured_output = capsys.readouterr().out
+
+    assert "(16 points)" in captured_output
+
+
+def test_dealer_draw_message(monkeypatch, capsys):
+    """ Tests whether the dealer_turn function correctly prints the draw message when the dealer hits. """
+    deck = ["AC", "AS", "AH"]
+    dealer_hand = ["3S", "2C"]
+    player_chooses(['hit'], monkeypatch)
+    dealer_hand = dealer_turn(dealer_hand, deck)
+
+    captured_output = capsys.readouterr().out
+
+    assert "Dealer Draws AC!" in captured_output
+
+
+def test_dealer_hand(monkeypatch):
+    """ Tests whether the dealer_turn function correctly updates and returns the dealer's new hand when the dealer hits. """
+    deck = ["AC", "AS", "AH"]
+    dealer_hand = ["3S", "2C"]
+    player_chooses(['hit'], monkeypatch)
+    dealer_hand = dealer_turn(dealer_hand, deck)
+    assert dealer_hand == ["3S", "2C", "AC"]
