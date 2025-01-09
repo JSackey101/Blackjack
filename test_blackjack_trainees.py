@@ -2,7 +2,7 @@
 
 """File for tests written by you - the trainee"""
 
-from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player, player_turn, dealer_turn
+from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player, player_turn, dealer_turn, result
 from support.testing_util import player_chooses
 
 
@@ -79,7 +79,7 @@ def test_hand_changed():
     assert player["hand"] == ["1S", "2S", "AC"]
 
 
-def test_player_bust():
+def test_player_bust_before_action():
     """ Tests whether the player_turn function returns False when the Player's hand 
         is already above 21. """
     deck = ["AC", "AS", "AH"]
@@ -203,3 +203,33 @@ def test_dealer_hand(monkeypatch):
     player_chooses(['hit'], monkeypatch)
     dealer_hand = dealer_turn(dealer_hand, deck)
     assert dealer_hand == ["3S", "2C", "AC"]
+
+
+def test_player_bust():
+    """ Tests whether the lose message is returned if the player has a hand worth more than 21 points"""
+    message = result(26, 18)
+    assert message == "You lose!"
+
+
+def test_player_less_points():
+    """ Tests whether the lose message is returned if the player has less points than the dealer when both are below 22 points"""
+    message = result(17, 21)
+    assert message == "You lose!"
+
+
+def test_dealer_bust():
+    """ Tests whether the win message is returned if the dealer has a hand worth more than 21 points while the player does not. """
+    message = result(20, 26)
+    assert message == "You win!"
+
+
+def test_dealer_less_points():
+    """ Tests whether the win message is returned if the player has more points than the dealer when both are below 22 points"""
+    message = result(21, 17)
+    assert message == "You win!"
+
+
+def test_draw():
+    """ Tests whether the draw message is returned in both players have the same number of points while being under 22"""
+    message = result(21, 21)
+    assert message == "Draw!"
