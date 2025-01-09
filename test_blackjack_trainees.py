@@ -233,3 +233,13 @@ def test_draw():
     """ Tests whether the draw message is returned in both players have the same number of points while being under 22"""
     message = result(21, 21)
     assert message == "Draw!"
+
+
+def test_dealer_turn_skip(monkeypatch, capsys):
+    """ Tests whether the play function skips the dealer's turn if the player goes bust on their turn. """
+    player_chooses(['hit', 'hit', 'hit'], monkeypatch)
+    play(1736441614)
+
+    captured_output = capsys.readouterr().out
+
+    assert "The Dealer will not be taking a turn!" in captured_output
