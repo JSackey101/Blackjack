@@ -73,7 +73,7 @@ def player_turn(deck: list[str], player: dict) -> bool:
     """
     points = points_for(player['hand'])
     if points > 21:
-        return False, points
+        return False
 
     # Accept the choice from the player
     action = input('What do you want to do? ("hit" or "stick")')
@@ -86,8 +86,8 @@ def player_turn(deck: list[str], player: dict) -> bool:
             f"Your hand is {', '.join(player['hand'])}({points} points)")
         return True, points
     if action == "stick":
-        return False, points
-    return False, points
+        return False
+    return False
 
 
 def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
@@ -97,7 +97,7 @@ def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
     print(f"Dealer Draws {dealer_hand[-1]}!")
     print(
         f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
-    return dealer_hand, points_for(dealer_hand)
+    return dealer_hand
 
 
 def result(player_points: int, dealer_points: int) -> str:
@@ -143,7 +143,8 @@ def play(seed: int) -> None:
         f"Your hand is {', '.join(player['hand'])}({points_for(player['hand'])} points)")
 
     while is_player_turn:
-        is_player_turn, player_points = player_turn(shuffled_deck, player)
+        is_player_turn = player_turn(shuffled_deck, player)
+    player_points = points_for(player['hand'])
 
     dealer_hand = []
     for _ in range(2):
@@ -156,10 +157,11 @@ def play(seed: int) -> None:
             f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
 
     while is_dealer_turn:
-        if dealer_points < 17:
-            dealer_hand, dealer_points = dealer_turn(
+        if points_for(dealer_hand) < 17:
+            dealer_hand = dealer_turn(
                 dealer_hand=dealer_hand, deck=shuffled_deck)
         else:
+            dealer_points = points_for(dealer_hand)
             is_dealer_turn = False
 
     result_message = result(player_points, dealer_points)
