@@ -3,6 +3,7 @@ from time import time
 from random import Random
 import argparse
 
+
 LOSE_MESSAGE = "You lose!"
 WIN_MESSAGE = "You win!"
 DRAW_MESSAGE = "Draw!"
