@@ -155,6 +155,8 @@ def play(seed: int) -> None:
         is_dealer_turn = True
         print(
             f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
+    else:
+        print("The Dealer will not be taking a turn!")
 
     while is_dealer_turn:
         if points_for(dealer_hand) < 17:
