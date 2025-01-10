@@ -40,8 +40,7 @@ def points_for_card(card: str) -> int:
     """Calculates the amount of points for 1 given card"""
     if card[:-1] in SPECIAL_NO_DICT:
         return SPECIAL_NO_DICT[card[:-1]]
-    else:
-        return int(card[:-1])
+    return int(card[:-1])
 
 
 def points_for(cards: list[str]) -> int:
