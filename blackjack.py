@@ -17,7 +17,7 @@ SPECIAL_NO_DICT = {"A": 11,
                    }
 BLACKJACK = 21
 DEALER_HIT_PTS_LIMIT = 17
-SIX_CARDS = 6
+FIVE_CARDS = 5
 
 
 def shuffle(deck: list, seed: int) -> list[str]:
@@ -51,7 +51,7 @@ def points_for(cards: list[str]) -> int:
     points = 0
     for i, card in enumerate(cards):
         points += points_for_card(card)
-        if (i+1) < SIX_CARDS and points < BLACKJACK:
+        if (i+1) > FIVE_CARDS and points < BLACKJACK:
             return BLACKJACK
     return points
 
@@ -85,8 +85,7 @@ def player_turn(deck: list[str], player: dict) -> bool:
         print("Hitting")
         deal_card_to_player(deck, player)
         points = points_for(player['hand'])
-        print(
-            f"Your hand is {', '.join(player['hand'])}({points} points)")
+        print_hand("Your", player['hand'])
         return True
     if action == "stick":
         return False
@@ -98,8 +97,7 @@ def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
 
     dealer_hand.append(get_next_card_from_deck(deck))
     print(f"Dealer Draws {dealer_hand[-1]}!")
-    print(
-        f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
+    print_hand("Dealer's", dealer_hand)
     return dealer_hand
 
 
@@ -122,6 +120,12 @@ def get_player_name() -> str:
     return input("What is your name?")
 
 
+def print_hand(name: str, hand: list[str]) -> None:
+    """ Prints the hand of the name passed as a parameter"""
+    print(
+        f"{name} hand is {', '.join(hand)}({points_for(hand)} points)")
+
+
 def play(seed: int) -> None:
     """
     Generates a deck and deals cards to the player and dealer.
@@ -142,8 +146,7 @@ def play(seed: int) -> None:
         "hand": [shuffled_deck.pop(0), shuffled_deck.pop(0)],
         "name": name
     }
-    print(
-        f"Your hand is {', '.join(player['hand'])}({points_for(player['hand'])} points)")
+    print_hand("Your", player['hand'])
 
     while is_player_turn:
         is_player_turn = player_turn(shuffled_deck, player)
@@ -156,8 +159,7 @@ def play(seed: int) -> None:
 
     if player_points <= BLACKJACK:
         is_dealer_turn = True
-        print(
-            f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
+        print_hand("Dealer's", dealer_hand)
     else:
         print("The Dealer will not be taking a turn!")
 
