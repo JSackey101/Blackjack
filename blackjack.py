@@ -85,7 +85,7 @@ def player_turn(deck: list[str], player: dict) -> bool:
         points = points_for(player['hand'])
         print(
             f"Your hand is {', '.join(player['hand'])}({points} points)")
-        return True, points
+        return True
     if action == "stick":
         return False
     return False
@@ -103,7 +103,7 @@ def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
 
 def result(player_points: int, dealer_points: int) -> str:
     """ Returns a result message based on the state of the player's 
-    (and if applicable the dealer's) points"""
+    (and if applicable the dealer's) points. """
     if player_points > 21:
         return LOSE_MESSAGE
     if dealer_points > 21:
