@@ -15,6 +15,9 @@ SPECIAL_NO_DICT = {"A": 11,
                    "Q": 10,
                    "K": 10
                    }
+BLACKJACK = 21
+DEALER_HIT_PTS_LIMIT = 17
+SIX_CARDS = 6
 
 
 def shuffle(deck: list, seed: int) -> list[str]:
@@ -35,22 +38,21 @@ def generate_deck() -> list[str]:
 
 def points_for_card(card: str) -> int:
     """Calculates the amount of points for 1 given card"""
-    if card[0:-1] in SPECIAL_NO_DICT:
-        points = SPECIAL_NO_DICT[card[0:-1]]
+    if card[:-1] in SPECIAL_NO_DICT:
+        return SPECIAL_NO_DICT[card[:-1]]
     else:
-        points = int(card[0:-1])
-    return points
+        return int(card[:-1])
 
 
 def points_for(cards: list[str]) -> int:
     """Calculates the amount of points for a given list of cards"""
     if len(cards) == 2 and (cards[0][0] and cards[1][0]) == "A":
-        return 21
+        return BLACKJACK
     points = 0
     for i, card in enumerate(cards):
         points += points_for_card(card)
-        if (i+1) > 5 and points < 21:
-            return 21
+        if (i+1) < SIX_CARDS and points < BLACKJACK:
+            return BLACKJACK
     return points
 
 
@@ -73,7 +75,7 @@ def player_turn(deck: list[str], player: dict) -> bool:
     based on their response of either 'hit' or 'stick'
     """
     points = points_for(player['hand'])
-    if points > 21:
+    if points > BLACKJACK:
         return False
 
     # Accept the choice from the player
@@ -104,9 +106,9 @@ def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
 def result(player_points: int, dealer_points: int) -> str:
     """ Returns a result message based on the state of the player's 
     (and if applicable the dealer's) points. """
-    if player_points > 21:
+    if player_points > BLACKJACK:
         return LOSE_MESSAGE
-    if dealer_points > 21:
+    if dealer_points > BLACKJACK:
         return WIN_MESSAGE
     if dealer_points > player_points:
         return LOSE_MESSAGE
@@ -152,7 +154,7 @@ def play(seed: int) -> None:
         dealer_hand.append(get_next_card_from_deck(shuffled_deck))
     dealer_points = points_for(dealer_hand)
 
-    if player_points < 22:
+    if player_points <= BLACKJACK:
         is_dealer_turn = True
         print(
             f"Dealer's hand is {', '.join(dealer_hand)}({points_for(dealer_hand)} points)")
@@ -160,7 +162,7 @@ def play(seed: int) -> None:
         print("The Dealer will not be taking a turn!")
 
     while is_dealer_turn:
-        if points_for(dealer_hand) < 17:
+        if points_for(dealer_hand) < DEALER_HIT_PTS_LIMIT:
             dealer_hand = dealer_turn(
                 dealer_hand=dealer_hand, deck=shuffled_deck)
         else:
