@@ -92,13 +92,16 @@ def player_turn(deck: list[str], player: dict) -> bool:
     return False
 
 
-def dealer_turn(dealer_hand: list[str], deck: list[str]) -> list[str]:
-    """ Returns an updated hand for the dealer as they draw a card. """
+def dealer_turn(dealer_hand: list[str], deck: list[str]) -> bool:
+    """ Carries out the dealer's turn and returns a boolean to decide
+        whether the dealer continues to hit or not. """
 
     dealer_hand.append(get_next_card_from_deck(deck))
     print(f"Dealer Draws {dealer_hand[-1]}!")
     print_hand("Dealer's", dealer_hand)
-    return dealer_hand
+    if points_for(dealer_hand) >= DEALER_HIT_PTS_LIMIT:
+        return False
+    return True
 
 
 def result(player_points: int, dealer_points: int) -> str:
@@ -155,7 +158,6 @@ def play(seed: int) -> None:
     dealer_hand = []
     for _ in range(2):
         dealer_hand.append(get_next_card_from_deck(shuffled_deck))
-    dealer_points = points_for(dealer_hand)
 
     if player_points <= BLACKJACK:
         is_dealer_turn = True
@@ -164,12 +166,9 @@ def play(seed: int) -> None:
         print("The Dealer will not be taking a turn!")
 
     while is_dealer_turn:
-        if points_for(dealer_hand) < DEALER_HIT_PTS_LIMIT:
-            dealer_hand = dealer_turn(
-                dealer_hand=dealer_hand, deck=shuffled_deck)
-        else:
-            dealer_points = points_for(dealer_hand)
-            is_dealer_turn = False
+        is_dealer_turn = dealer_turn(
+            dealer_hand=dealer_hand, deck=shuffled_deck)
+    dealer_points = points_for(dealer_hand)
 
     result_message = result(player_points, dealer_points)
     print(result_message)
