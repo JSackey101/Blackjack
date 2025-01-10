@@ -92,7 +92,7 @@ def test_player_bust_before_action():
 
 
 def test_player_hit(capsys, monkeypatch):
-    """ Tests whether the player_turn function prints "Hitting" when the user chooses to hit. """
+    """ Tests whether the player_turn function prints "Hitting" and returns True when the user chooses to hit. """
     deck = ["AC", "AS", "AH"]
     player = {
         "hand": ["KH", "2C"],
@@ -104,6 +104,7 @@ def test_player_hit(capsys, monkeypatch):
     captured_output = capsys.readouterr().out
 
     assert "Hitting" in captured_output
+    assert is_player_turn == True
 
 
 def test_printed_hand(monkeypatch, capsys):
@@ -196,13 +197,22 @@ def test_dealer_draw_message(monkeypatch, capsys):
     assert "Dealer Draws AC!" in captured_output
 
 
-def test_dealer_hand(monkeypatch):
-    """ Tests whether the dealer_turn function correctly updates and returns the dealer's new hand when the dealer hits. """
+def test_dealer_turn_stick(monkeypatch):
+    """ Tests whether the dealer_turn function returns False when the Dealer's 
+        hand is worth 17 or more points to represent the dealer stick. """
     deck = ["AC", "AS", "AH"]
+    dealer_hand = ["5S", "2C"]
+    is_dealer_turn = dealer_turn(dealer_hand, deck)
+    assert is_dealer_turn == False
+
+
+def test_dealer_turn_hit(monkeypatch):
+    """ Tests whether the dealer_turn function returns True when the Dealer's 
+        hand is worth 16 or less points to allow the dealer to hit again. """
+    deck = ["1C", "AS", "AH"]
     dealer_hand = ["3S", "2C"]
-    player_chooses(['hit'], monkeypatch)
-    dealer_hand = dealer_turn(dealer_hand, deck)
-    assert dealer_hand == ["3S", "2C", "AC"]
+    is_dealer_turn = dealer_turn(dealer_hand, deck)
+    assert is_dealer_turn == True
 
 
 def test_player_bust():
