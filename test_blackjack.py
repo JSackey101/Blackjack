@@ -1,4 +1,4 @@
-""" Tests for the blackjack game. """
+""" Tests for the blackjack game. Uses pytest. """
 
 from blackjack import (generate_deck, points_for, points_for_card, play, get_next_card_from_deck,
                        deal_card_to_player, player_turn, dealer_turn, result)
