@@ -2,6 +2,8 @@
 
 ## Description
 
+One player Blackjack game which can be played in the command-line. Player draws cards and attempts to hit either 21 or a number under 21 with the hopes that the dealer will not draw an equal or higher number on their turn. If the player draws over 21 then they lose.
+
 ## Usage
 
 To run without a defined seed use:
