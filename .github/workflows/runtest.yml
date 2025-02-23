@@ -1,0 +1,31 @@
+name: Test Blackjack
+
+on:
+    workflow_dispatch:
+    push:
+        branches: main
+    pull_request:
+        branches: main
+
+jobs:
+    speak:
+        runs-on: ubuntu-latest
+        steps:
+            - name: speak
+              run: Testing Blackjack!
+        
+
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: ["3.12"]
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              
+            - name: Test API
+              run: |
+                python -m pip install --upgrade pip
+                if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+                pytest
