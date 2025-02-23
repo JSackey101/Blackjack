@@ -175,7 +175,7 @@ def play(seed: int) -> None:
 
 def get_seed() -> int:
     """
-    You can safely ignore this function. It is used to accept a seed from the command line.
+    Function is used to accept a seed from the command line.
     For example
 
     python3 blackjack.py --seed 313131
