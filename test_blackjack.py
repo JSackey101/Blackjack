@@ -3,7 +3,6 @@
 """File for tests written by you - the trainee"""
 
 from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player, player_turn, dealer_turn, result
-from support.testing_util import player_chooses
 
 
 def test_generate_deck():
