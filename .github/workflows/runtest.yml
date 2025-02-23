@@ -12,7 +12,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: speak
-              run: Testing Blackjack!
+              run: echo Testing Blackjack!
         
 
     test:
@@ -24,7 +24,7 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v4
               
-            - name: Test API
+            - name: Test Blackjack 
               run: |
                 python -m pip install --upgrade pip
                 pip install pytest
