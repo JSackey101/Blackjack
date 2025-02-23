@@ -1,9 +1,8 @@
-# pylint: skip-file
+""" Tests for the blackjack game. """
 
-"""File for tests written by you - the trainee"""
-
-from blackjack import generate_deck, points_for, points_for_card, play, get_next_card_from_deck, deal_card_to_player, player_turn, dealer_turn, result
-
+from blackjack import (generate_deck, points_for, points_for_card, play, get_next_card_from_deck,
+                       deal_card_to_player, player_turn, dealer_turn, result)
+from testing_util import player_chooses
 
 def test_generate_deck():
     """ Tests whether the generate_deck function generates the correct cards in the correct order. """
@@ -61,9 +60,9 @@ def test_correct_draw():
 
 
 def test_deck_edited():
-    """ Tests whether the get_next_card_from_deck function correctly removes the next card from the deck"""
+    """ Tests whether the get_next_card_from_deck function correctly removes the next card from the deck """
     deck = ["AC", "AS", "AH"]
-    next_card = get_next_card_from_deck(deck)
+    get_next_card_from_deck(deck)
     assert deck == ["AS", "AH"]
 
 
@@ -87,7 +86,7 @@ def test_player_bust_before_action():
         "name": "John Doe"
     }
     is_player_turn = player_turn(deck, player)
-    assert is_player_turn == False
+    assert is_player_turn is False
 
 
 def test_player_hit(capsys, monkeypatch):
@@ -103,7 +102,7 @@ def test_player_hit(capsys, monkeypatch):
     captured_output = capsys.readouterr().out
 
     assert "Hitting" in captured_output
-    assert is_player_turn == True
+    assert is_player_turn is True
 
 
 def test_printed_hand(monkeypatch, capsys):
@@ -114,7 +113,7 @@ def test_printed_hand(monkeypatch, capsys):
         "name": "John Doe"
     }
     player_chooses(['hit'], monkeypatch)
-    is_player_turn = player_turn(deck=deck, player=player)
+    player_turn(deck=deck, player=player)
 
     captured_output = capsys.readouterr().out
 
@@ -129,7 +128,7 @@ def test_printed_points(monkeypatch, capsys):
         "name": "John Doe"
     }
     player_chooses(['hit'], monkeypatch)
-    is_player_turn = player_turn(deck=deck, player=player)
+    player_turn(deck=deck, player=player)
 
     captured_output = capsys.readouterr().out
 
@@ -145,7 +144,7 @@ def test_player_stick(capsys, monkeypatch):
     }
     player_chooses(['stick'], monkeypatch)
     is_player_turn = player_turn(deck, player)
-    assert is_player_turn == False
+    assert is_player_turn is False
 
 
 def test_player_invalid_input(capsys, monkeypatch):
@@ -157,7 +156,7 @@ def test_player_invalid_input(capsys, monkeypatch):
     }
     player_chooses(['invalid'], monkeypatch)
     is_player_turn = player_turn(deck, player)
-    assert is_player_turn == False
+    assert is_player_turn is False
 
 
 def test_printed_dealer_hand(monkeypatch, capsys):
@@ -196,22 +195,22 @@ def test_dealer_draw_message(monkeypatch, capsys):
     assert "Dealer Draws AC!" in captured_output
 
 
-def test_dealer_turn_stick(monkeypatch):
+def test_dealer_turn_stick():
     """ Tests whether the dealer_turn function returns False when the Dealer's 
         hand is worth 17 or more points to represent the dealer stick. """
     deck = ["AC", "AS", "AH"]
     dealer_hand = ["5S", "2C"]
     is_dealer_turn = dealer_turn(dealer_hand, deck)
-    assert is_dealer_turn == False
+    assert is_dealer_turn is False
 
 
-def test_dealer_turn_hit(monkeypatch):
+def test_dealer_turn_hit():
     """ Tests whether the dealer_turn function returns True when the Dealer's 
         hand is worth 16 or less points to allow the dealer to hit again. """
     deck = ["1C", "AS", "AH"]
     dealer_hand = ["3S", "2C"]
     is_dealer_turn = dealer_turn(dealer_hand, deck)
-    assert is_dealer_turn == True
+    assert is_dealer_turn is True
 
 
 def test_player_bust():
@@ -252,3 +251,62 @@ def test_dealer_turn_skip(monkeypatch, capsys):
     captured_output = capsys.readouterr().out
 
     assert "The Dealer will not be taking a turn!" in captured_output
+
+def test_player_turn_output_hitting(monkeypatch, capsys):
+    """player_turn(): choosing to hit outputs a "Hitting" message"""
+
+    player_chooses(["test_name", "hit", "stick"], monkeypatch)
+
+    play(389813913)
+
+    captured_output = capsys.readouterr().out
+    printed_lines = captured_output.split("\n")
+
+    assert "Hitting" in printed_lines
+
+
+def test_player_choosing_hit_updates_hand(monkeypatch, capsys):
+    """player_turn(): choosing to hit shows an updated hand"""
+
+    player_chooses(["test_name", "hit", "stick"], monkeypatch)
+
+    play(389813913)
+
+    captured_output = capsys.readouterr().out
+    printed_lines = captured_output.split("\n")
+    printed_lines = list(
+        filter(lambda m: (m.startswith('Your hand is')), printed_lines))
+    print(printed_lines)
+
+    assert printed_lines[1] is not None
+    assert "Your hand is 9S, KS, 9H" in printed_lines[1]
+
+
+def test_player_choosing_hit_updates_points(monkeypatch, capsys):
+    """player_turn(): choosing to hit shows an updated point total"""
+
+    player_chooses(["test_name", "hit", "stick"], monkeypatch)
+
+    play(313131)
+
+    captured_output = capsys.readouterr().out
+    printed_lines = captured_output.split("\n")
+    print(printed_lines)
+    printed_lines = list(
+        filter(lambda m: (m.startswith('Your hand is')), printed_lines))
+
+    assert printed_lines[1] is not None
+    assert "(14 points)" in printed_lines[1]
+
+
+def test_player_hitting_and_busting_lose(monkeypatch, capsys):
+    """player_turn(): hitting and busting displays a 'you lose' message"""
+
+    player_chooses(["test_name", "hit"], monkeypatch)
+
+    play(seed=1595870164262)
+
+    captured_output = capsys.readouterr().out
+    printed_lines = captured_output.split("\n")
+
+    assert "You lose!" in printed_lines
